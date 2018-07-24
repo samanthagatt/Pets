@@ -9,7 +9,7 @@
 import UIKit
 
 class PetsTableViewController: UITableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,30 +23,42 @@ class PetsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    /*
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionTitles[section]
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return sectionTitles.count
     }
-    */
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return pets.count
+        switch (section) {
+            case 0:
+                return pets[1].count
+            default:
+                return pets[0].count
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PetCell", for: indexPath)
 
         // Configure the cell...
-        let pet = pets[indexPath.row]
-        cell.textLabel?.text = pet
-
+        switch (indexPath.section) {
+            case 0:
+                let newPet = pets[1][indexPath.row]
+                cell.textLabel?.text = newPet
+            default:
+                let pet = pets[0][indexPath.row]
+                cell.textLabel?.text = pet
+        }
         return cell
     }
 
-    
-    let pets = ["Elephant", "Giraffe", "Panda", "Alligator"]
+    let sectionTitles = ["New Animals", "Old Animals"]
+    let pets = [["Elephant", "Giraffe", "Panda", "Alligator"], ["Cat", "Dog", "Mouse"]]
     
     
     
